@@ -156,9 +156,45 @@ namespace GraficadorSeñales
 
         }
 
-        
-        
-        
+        public static Señal Correlacion(Señal operando1, Señal operando2)
+        {
+            SeñalPersonalizada resultado = new SeñalPersonalizada();
+            resultado.TiempoInicial = operando1.TiempoInicial + operando2.TiempoInicial;
+            resultado.TiempoFinal = operando1.TiempoFinal + operando2.TiempoFinal;
+            resultado.FrecuenciaMuestreo = operando1.FrecuenciaMuestreo;
+
+            double periodoMuestreo = 1 / resultado.FrecuenciaMuestreo;
+            double duracionSeñal = resultado.TiempoFinal - resultado.TiempoInicial;
+            double cantidadMuestrasResultado = duracionSeñal * resultado.FrecuenciaMuestreo;
+            double instanteActual = resultado.TiempoInicial;
+
+            for (int n = 0; n < cantidadMuestrasResultado; n++)
+            {
+                double valorMuestra = 0;
+                for (int m = 0; m < operando2.Muestras.Count; m++)
+                {
+                    if ((n + m) >= 0 && (n + m) < operando2.Muestras.Count)
+                    {
+
+                        valorMuestra += operando1.Muestras[m].Y * operando2.Muestras[n + m].Y;
+
+                    }
+                }
+                valorMuestra /= resultado.FrecuenciaMuestreo;
+                Muestra muestra = new Muestra(instanteActual, valorMuestra);
+                resultado.Muestras.Add(muestra);
+                instanteActual += periodoMuestreo;
+
+            }
+            return resultado;
+
+        }
+
+
+
+
+
+
 
     }
 }

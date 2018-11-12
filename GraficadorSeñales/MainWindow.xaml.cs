@@ -271,6 +271,10 @@ namespace GraficadorSeñales
                 case 2: // Convolucion
                     señalResultado = Señal.Convolucionar(señal, señal_2);
                     break;
+                    
+                case 3: // Correlacion
+                    señalResultado = Señal.Correlacion(señal, señal_2);
+                    break;
                 default:
                     break;
             }
